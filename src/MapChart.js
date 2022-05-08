@@ -10,6 +10,8 @@ import {
   Graticule
 } from "react-simple-maps";
 
+import { data as linksData } from './data';
+
 const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
@@ -47,7 +49,14 @@ const MapChart = ({ setTooltipContent }) => {
                     key={geo.rsmKey}
                     geography={geo}
                     fill={d ? colorScale(d["2017"]) : "#F5F4F6"}
-                    onClick={() => window.open(`https://en.wikipedia.org/wiki/${geo.properties.NAME}`, '_blank')}
+                    onClick={() => {
+                      const link = linksData[geo.properties.NAME];
+                      if (link) {
+                        window.open(link, '_blank');
+                      } else {
+                        window.open(`https://en.wikipedia.org/wiki/${geo.properties.NAME}`, '_blank');
+                      }
+                    }}
                     onMouseEnter={() => {
                       const { NAME } = geo.properties;
                       setTooltipContent(NAME);
